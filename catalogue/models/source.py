@@ -12,4 +12,4 @@ class Source(models.Model):
     type = models.CharField(max_length=127)
     surface = models.CharField(max_length=127)
     comments = models.TextField(blank=True, null=True)
-
+    archive = models.ForeignKey("catalogue.Archive")
