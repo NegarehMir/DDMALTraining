@@ -9,3 +9,6 @@ class Composition(models.Model):
     anonymous = models.BooleanField(default=False)
     source = models.ForeignKey("catalogue.Source")
     composer = models.ForeignKey("catalogue.Composer", blank=True, null=True)
+
+    def __str__(self):
+        return "{0}".format(self.title)
