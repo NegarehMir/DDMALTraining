@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Composition(models.model):
+class Composition(models.Model):
     class Meta:
         app_label = "catalogue"
 

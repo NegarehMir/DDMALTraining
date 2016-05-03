@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Source(models.model):
+class Source(models.Model):
     class Meta:
         app_label = "catalogue"
 
