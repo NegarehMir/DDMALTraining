@@ -5,7 +5,7 @@ class Composition(models.Model):
     class Meta:
         app_label = "catalogue"
 
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True, null=True)
     anonymous = models.BooleanField(default=False)
     source = models.ForeignKey("catalogue.Source")
     composer = models.ForeignKey("catalogue.Composer", blank=True, null=True)
