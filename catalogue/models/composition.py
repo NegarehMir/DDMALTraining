@@ -8,7 +8,7 @@ class Composition(models.Model):
     title = models.CharField(max_length=255)
     anonymous = models.BooleanField(default=False)
     source = models.ForeignKey("catalogue.Source", blank=True, null=True)
-    composer = models.ForeignKey("catalogue.Composer", blank=True, null=True)
+    composers = models.ManyToManyField("catalogue.Composer", through='catalogue.Composed')
 
     def __str__(self):
         return "{0}".format(self.title)

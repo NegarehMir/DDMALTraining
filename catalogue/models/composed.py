@@ -10,4 +10,7 @@ class Composed(models.Model):
     composer = models.ForeignKey("catalogue.Composer", blank=True, null=True)
 
     def __str__(self):
-        return "{0}".format(self.certain)
+        if(self.certain):
+            return "{0}".format(self.composition.title+"  by  "+self.composer.name)
+        else:
+            return "{0}".format('?'+self.composition.title+"    by    "+self.composer.name)
