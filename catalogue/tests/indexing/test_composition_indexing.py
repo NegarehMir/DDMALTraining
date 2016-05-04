@@ -5,42 +5,42 @@ from model_mommy import mommy
 import pysolr
 
 
-class TestSourceIndexing(APITestCase):
+class TestCompositionIndexing(APITestCase):
 
     @override_settings(SOLR={'SERVER': 'http://localhost:8983/solr/test_catalogue'})
     def setUp(self):
         self.server = pysolr.Solr(settings.SOLR['SERVER'])
 
     def test_solr_index_on_create(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        q = self.server.search("*.*", fq=['type:source', 'pk:{0}'.format(source.pk)])
+        composition = mommy.make("catalogue.Composition", _fill_optional=['title'])
+        q = self.server.search("*.*", fq=['type:composition', 'pk:{0}'.format(composition.pk)])
         self.assertTrue(q.hits > 0)
 
     def test_solr_delete_on_delete(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        source_pk = source.pk
+        composition = mommy.make("catalogue.Composition", _fill_optional=['title'])
+        composition_pk = composition.pk
         params = {
-            'fq': ['type:source', 'pk:{0}'.format(source_pk)]
+            'fq': ['type:composition', 'pk:{0}'.format(composition_pk)]
         }
         q = self.server.search("*.*", **params)
         self.assertTrue(q.hits > 0)
 
-        source.delete()
+        composition.delete()
         q = self.server.search("*.*", **params)
         self.assertTrue(q.hits == 0)
 
     def test_solr_index_on_update(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        source_pk = source.pk
-        fq = ['type:source', 'pk:{0}'.format(source_pk)]
+        composition = mommy.make("catalogue.Composition", _fill_optional=['title'])
+        composition_pk = composition.pk
+        fq = ['type:composition', 'pk:{0}'.format(composition_pk)]
 
         new_name = "New Name"
-        self.assertFalse((source.name, new_name))
+        self.assertFalse((composition.title, new_name))
 
-        source.name = new_name
-        source.save()
+        composition.name = new_name
+        composition.save()
         q = self.server.search('*.*', fq=fq)
-        self.assertTrue(q.docs[0]['name_s' == new_name])
+        self.assertTrue(q.docs[0]['title_s' == new_name])
 
     def tearDown(self):
         self.server.delete(q='*:*')

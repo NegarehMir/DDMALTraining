@@ -5,40 +5,40 @@ from model_mommy import mommy
 import pysolr
 
 
-class TestSourceIndexing(APITestCase):
+class TestComposerIndexing(APITestCase):
 
     @override_settings(SOLR={'SERVER': 'http://localhost:8983/solr/test_catalogue'})
     def setUp(self):
         self.server = pysolr.Solr(settings.SOLR['SERVER'])
 
     def test_solr_index_on_create(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        q = self.server.search("*.*", fq=['type:source', 'pk:{0}'.format(source.pk)])
+        composer = mommy.make("catalogue.Composer", _fill_optional=['name'])
+        q = self.server.search("*.*", fq=['type:composer', 'pk:{0}'.format(composer.pk)])
         self.assertTrue(q.hits > 0)
 
     def test_solr_delete_on_delete(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        source_pk = source.pk
+        composer = mommy.make("catalogue.Composer", _fill_optional=['name'])
+        composer_pk = composer.pk
         params = {
-            'fq': ['type:source', 'pk:{0}'.format(source_pk)]
+            'fq': ['type:composer', 'pk:{0}'.format(composer_pk)]
         }
         q = self.server.search("*.*", **params)
         self.assertTrue(q.hits > 0)
 
-        source.delete()
+        composer.delete()
         q = self.server.search("*.*", **params)
         self.assertTrue(q.hits == 0)
 
     def test_solr_index_on_update(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        source_pk = source.pk
-        fq = ['type:source', 'pk:{0}'.format(source_pk)]
+        composer = mommy.make("catalogue.Composer", _fill_optional=['name'])
+        composer_pk = composer.pk
+        fq = ['type:composer', 'pk:{0}'.format(composer_pk)]
 
         new_name = "New Name"
-        self.assertFalse((source.name, new_name))
+        self.assertFalse((composer.name, new_name))
 
-        source.name = new_name
-        source.save()
+        composer.name = new_name
+        composer.save()
         q = self.server.search('*.*', fq=fq)
         self.assertTrue(q.docs[0]['name_s' == new_name])
 
