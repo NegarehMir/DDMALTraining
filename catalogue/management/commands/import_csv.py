@@ -32,8 +32,6 @@ class Command(BaseCommand):
         archive, created = Archive.objects.get_or_create(name=row['archiveName']);
 
         if created:
-            if row['archiveName']:
-                archive.name = row['archiveName']
             if row['archiveCitarary']:
                 archive.city = row['archiveCitarary']
             if row['siglum']:
@@ -49,8 +47,6 @@ class Command(BaseCommand):
         composition, created = Composition.objects.get_or_create(title=row['composition_name']);
 
         if created:
-            if row['composition_name']:
-                composition.title = row['composition_name']
             composition.save()
 
         return composition
@@ -63,8 +59,6 @@ class Command(BaseCommand):
             composer, created = Composer.objects.get_or_create(name=row['composer']);
 
         if created:
-            if row['composer']:
-                composer.name = row['composer']
             composer.save()
 
         return composer
@@ -103,15 +97,14 @@ class Command(BaseCommand):
                     composition.source = source
                     composition.save()
 
-                if not composition.composer:
+                if not composition.composers:
                     if composer.name == "no composer/anon":
                         composition.anonymous = True
-                    composition.composer = composer
+                    composition.composers.add(composer)
                     composition.save()
 
                 if row['composer'].startswith('?'):
                     composed.certain = False
-                    #composer.name = composer.name[1:]
                     composer.save()
                 if not composed.composition:
                     composed.composition = composition
