@@ -109,9 +109,9 @@ class Command(BaseCommand):
                     composition.composer = composer
                     composition.save()
 
-                if composer.name.startswith('?'):
+                if row['composer'].startswith('?'):
                     composed.certain = False
-                    composer.name = composer.name[1:]
+                    #composer.name = composer.name[1:]
                     composer.save()
                 if not composed.composition:
                     composed.composition = composition
