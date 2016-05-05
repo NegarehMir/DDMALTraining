@@ -5,7 +5,15 @@ from catalogue.models.source import Source
 class SourceSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Source
-        fields = ('pk', 'type', 'shelfmark_s')
+        fields = ('type',
+                  'pk',
+                  'shelfmark_s',
+                  'name_s',
+                  'type_s',
+                  'start_date_i',
+                  'end_date_i',
+                  'surface_s',
+                  'comments_t')
 
     type = serializers.SerializerMethodField()
     pk = serializers.ReadOnlyField()

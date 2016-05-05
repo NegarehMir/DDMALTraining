@@ -2,10 +2,10 @@ from rest_framework import serializers
 from catalogue.models.composition import Composition
 
 
-class SourceSearchSerializer(serializers.ModelSerializer):
+class CompositionSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Composition
-        fields = ('pk', 'type', 'title_s')
+        fields = ('pk', 'type', 'title_s', 'anonymous_s')
 
     type = serializers.SerializerMethodField()
     pk = serializers.ReadOnlyField()

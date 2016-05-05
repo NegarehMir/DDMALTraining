@@ -2,7 +2,7 @@ from rest_framework import serializers
 from catalogue.models.composer import Composer
 
 
-class SourceSearchSerializer(serializers.ModelSerializer):
+class ComposerSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Composer
         fields = ('pk', 'type', 'name_s')
