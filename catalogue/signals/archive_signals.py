@@ -8,6 +8,6 @@ def index_archive(sender, instance, created, **kwargs):
     print('Archive saved')
 
 
-@receiver(post_archive, sender=Archive)
+@receiver(post_delete, sender=Archive)
 def delecte_source(sender, instance, **kwargs):
     print('Archive deleted')

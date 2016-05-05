@@ -8,6 +8,6 @@ def index_composer(sender, instance, created, **kwargs):
     print('Composer saved')
 
 
-@receiver(post_composer, sender=Composer)
-def delecte_source(sender, instance, **kwargs):
+@receiver(post_delete, sender=Composer)
+def delete_composer(sender, instance, **kwargs):
     print('Composer deleted')
