@@ -12,6 +12,7 @@ class SourceSearchSerializer(serializers.ModelSerializer):
 
     shelfmark_s = serializers.ReadOnlyField(source="shelfmark")
     name_s = serializers.ReadOnlyField(source="name")
+    type_s = serializers.ReadOnlyField(source="name")
     start_date_i = serializers.ReadOnlyField(source="start_date")
     end_date_i = serializers.ReadOnlyField(source="end_date")
     surface_s = serializers.ReadOnlyField(source="surface")
