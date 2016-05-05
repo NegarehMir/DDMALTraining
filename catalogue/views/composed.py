@@ -2,12 +2,12 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView
 from catalogue.models.composed import Composed
 
 
-class SourceListView(ListAPIView):
+class ComposedListView(ListAPIView):
     #Handels GET "/composeds/"
     pass
 
 
 
-class SourceDetailView(RetrieveAPIView):
+class ComposedDetailView(RetrieveAPIView):
     # HAndles GET "/composeds/1/"
     pass
