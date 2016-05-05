@@ -4,3 +4,4 @@ tutenv
 __pycache__
 migrations
 db.sqlite3
+solr/data
