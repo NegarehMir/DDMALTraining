@@ -19,13 +19,24 @@ from catalogue.views.source import SourceListView, SourceDetailView
 from catalogue.views.archive import ArchiveListView, ArchiveDetailView
 from catalogue.views.composition import CompositionListView, CompositionDetailView
 from catalogue.views.composer import ComposerListView, ComposerDetailView
-#from catalogue.views.composed import ComposedListView, ComposedDetailView
+from catalogue.views.composed import ComposedListView, ComposedDetailView
 
 
 urlpatterns = [
     url(r'^sources/$', SourceListView.as_view(), name="source-list"),
     url(r'^sources/(?P<pk>[0-9]+)/$', SourceDetailView.as_view(), name="source-detail"),
+
     url(r'^archives/$', ArchiveListView.as_view(), name="archive-list"),
     url(r'^archives/(?P<pk>[0-9]+)/$', ArchiveDetailView.as_view(), name="archive-detail"),
+
+    url(r'^composition/$', CompositionListView.as_view(), name="composition-list"),
+    url(r'^compositions/(?P<pk>[0-9]+)/$', CompositionDetailView.as_view(), name="composition-detail"),
+
+    url(r'^composers/$', ComposerListView.as_view(), name="composer-list"),
+    url(r'^composers/(?P<pk>[0-9]+)/$', ComposerDetailView.as_view(), name="composer-detail"),
+
+    url(r'^composeds/$', ComposedListView.as_view(), name="composed-list"),
+    url(r'^composeds/(?P<pk>[0-9]+)/$', ComposedDetailView.as_view(), name="composed-detail"),
+
     url(r'^admin/', admin.site.urls),
 ]
