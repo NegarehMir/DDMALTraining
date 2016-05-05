@@ -2,5 +2,11 @@
 
 
 {% block body %}
+
     <h1>Source List</h1>
+    <ul>
+    {% for source in content %}
+        <li><a href="{{ source.url }}">{{ source.shelfmark }}</a></li>
+    {% endfor %}
+    </ul>
 {%  endblock %}
