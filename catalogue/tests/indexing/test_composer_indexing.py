@@ -13,7 +13,7 @@ class TestComposerIndexing(APITestCase):
 
     def test_solr_index_on_create(self):
         composer = mommy.make("catalogue.Composer", _fill_optional=['name'])
-        q = self.server.search("*.*", fq=['type:composer', 'pk:{0}'.format(composer.pk)])
+        q = self.server.search("*:*", fq=['type:composer', 'pk:{0}'.format(composer.pk)])
         self.assertTrue(q.hits > 0)
 
     def test_solr_delete_on_delete(self):
@@ -22,11 +22,11 @@ class TestComposerIndexing(APITestCase):
         params = {
             'fq': ['type:composer', 'pk:{0}'.format(composer_pk)]
         }
-        q = self.server.search("*.*", **params)
+        q = self.server.search("*:*", **params)
         self.assertTrue(q.hits > 0)
 
         composer.delete()
-        q = self.server.search("*.*", **params)
+        q = self.server.search("*:*", **params)
         self.assertTrue(q.hits == 0)
 
     def test_solr_index_on_update(self):
@@ -35,12 +35,12 @@ class TestComposerIndexing(APITestCase):
         fq = ['type:composer', 'pk:{0}'.format(composer_pk)]
 
         new_name = "New Name"
-        self.assertFalse((composer.name, new_name))
+        self.assertNotEqual(composer.name, new_name)
 
         composer.name = new_name
         composer.save()
-        q = self.server.search('*.*', fq=fq)
-        self.assertTrue(q.docs[0]['name_s' == new_name])
+        q = self.server.search('*:*', fq=fq)
+        self.assertTrue(q.docs[0]['name_s'] == new_name)
 
     def tearDown(self):
         self.server.delete(q='*:*')

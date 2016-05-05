@@ -13,7 +13,7 @@ class TestArchiveIndexing(APITestCase):
 
     def test_solr_index_on_create(self):
         archive = mommy.make("catalogue.Archive", _fill_optional=['name'])
-        q = self.server.search("*.*", fq=['type:archive', 'pk:{0}'.format(archive.pk)])
+        q = self.server.search("*:*", fq=['type:archive', 'pk:{0}'.format(archive.pk)])
         self.assertTrue(q.hits > 0)
 
     def test_solr_delete_on_delete(self):
@@ -22,11 +22,11 @@ class TestArchiveIndexing(APITestCase):
         params = {
             'fq': ['type:archive', 'pk:{0}'.format(archive_pk)]
         }
-        q = self.server.search("*.*", **params)
+        q = self.server.search("*:*", **params)
         self.assertTrue(q.hits > 0)
 
-        source.delete()
-        q = self.server.search("*.*", **params)
+        archive.delete()
+        q = self.server.search("*:*", **params)
         self.assertTrue(q.hits == 0)
 
     def test_solr_index_on_update(self):
@@ -35,12 +35,12 @@ class TestArchiveIndexing(APITestCase):
         fq = ['type:archive', 'pk:{0}'.format(archive_pk)]
 
         new_name = "New Name"
-        self.assertFalse((archive.name, new_name))
+        self.assertNotEqual(archive.name, new_name)
 
         archive.name = new_name
         archive.save()
-        q = self.server.search('*.*', fq=fq)
-        self.assertTrue(q.docs[0]['name_s' == new_name])
+        q = self.server.search('*:*', fq=fq)
+        self.assertTrue(q.docs[0]['name_s'] == new_name)
 
     def tearDown(self):
         # super(TestArchiveIndexing, self).tearDown()
