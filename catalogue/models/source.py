@@ -9,7 +9,6 @@ class Source(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     start_date = models.IntegerField(blank=True, null=True)
     end_date = models.IntegerField(blank=True, null=True)
-    type = models.CharField(max_length=127)
     surface = models.CharField(max_length=127)
     type = models.CharField(max_length=127, blank=True, null=True)
     surface = models.CharField(max_length=127, blank=True, null=True)
