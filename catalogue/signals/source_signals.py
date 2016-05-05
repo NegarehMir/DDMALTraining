@@ -4,11 +4,12 @@ from catalogue.models.source import Source
 from catalogue.helpers.solr_helpers import solr_index, solr_delete
 from catalogue.serializers.search.source import SourceSearchSerializer
 
+
 @receiver(post_save, sender=Source)
 def index_source(sender, instance, created, **kwargs):
-    print('Source saved')
+    solr_index(SourceSearchSerializer, [instance])
 
 
 @receiver(post_delete, sender=Source)
 def delete_source(sender, instance, **kwargs):
-    print('Source deleted')
+    solr_delete([instance])
