@@ -4,6 +4,7 @@ from django.db import models
 class Archive(models.Model):
     class Meta:
         app_label = "catalogue"
+        ordering = ['name']
 
     name = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=127, blank=True, null=True)
