@@ -5,9 +5,9 @@ from model_mommy import mommy
 import pysolr
 
 
+@override_settings(SOLR={'SERVER': 'http://localhost:8983/solr/test_catalogue'})
 class TestArchiveIndexing(APITestCase):
 
-    @override_settings(SOLR={'SERVER': 'http://localhost:8983/solr/test_catalogue'})
     def setUp(self):
         self.server = pysolr.Solr(settings.SOLR['SERVER'])
 
