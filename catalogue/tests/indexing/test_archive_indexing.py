@@ -5,22 +5,22 @@ from model_mommy import mommy
 import pysolr
 
 
-class TestSourceIndexing(APITestCase):
+class TestArchiveIndexing(APITestCase):
 
     @override_settings(SOLR={'SERVER': 'http://localhost:8983/solr/test_catalogue'})
     def setUp(self):
         self.server = pysolr.Solr(settings.SOLR['SERVER'])
 
     def test_solr_index_on_create(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        q = self.server.search("*.*", fq=['type:source', 'pk:{0}'.format(source.pk)])
+        archive = mommy.make("catalogue.Archive", _fill_optional=['name'])
+        q = self.server.search("*.*", fq=['type:archive', 'pk:{0}'.format(archive.pk)])
         self.assertTrue(q.hits > 0)
 
     def test_solr_delete_on_delete(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        source_pk = source.pk
+        archive = mommy.make("catalogue.Archive", _fill_optional=['name'])
+        archive_pk = archive.pk
         params = {
-            'fq': ['type:source', 'pk:{0}'.format(source_pk)]
+            'fq': ['type:archive', 'pk:{0}'.format(archive_pk)]
         }
         q = self.server.search("*.*", **params)
         self.assertTrue(q.hits > 0)
@@ -30,17 +30,18 @@ class TestSourceIndexing(APITestCase):
         self.assertTrue(q.hits == 0)
 
     def test_solr_index_on_update(self):
-        source = mommy.make("catalogue.Source", _fill_optional=['name'])
-        source_pk = source.pk
-        fq = ['type:source', 'pk:{0}'.format(source_pk)]
+        archive = mommy.make("catalogue.Archive", _fill_optional=['name'])
+        archive_pk = archive.pk
+        fq = ['type:archive', 'pk:{0}'.format(archive_pk)]
 
         new_name = "New Name"
-        self.assertFalse((source.name, new_name))
+        self.assertFalse((archive.name, new_name))
 
-        source.name = new_name
-        source.save()
+        archive.name = new_name
+        archive.save()
         q = self.server.search('*.*', fq=fq)
         self.assertTrue(q.docs[0]['name_s' == new_name])
 
     def tearDown(self):
+        # super(TestArchiveIndexing, self).tearDown()
         self.server.delete(q='*:*')
