@@ -3,13 +3,12 @@ from rest_framework.reverse import reverse
 from rest_framework import status
 from django.db.models import signals
 from catalogue.signals.source_signals import index_source
-from catalogue.signals.source_signals import delete_source
 from catalogue.models.source import Source
 from model_mommy import mommy
 
 
 class SourceViewTest(APITestCase):
-    def setUo(self):
+    def setUp(self):
         signals.post_save.disconnect(index_source, sender=Source)
         self.source = mommy.make("catalogue.Source")
 
