@@ -1,0 +1,17 @@
+from rest_framework import serializers
+from catalogue.models.composition import Composition
+
+
+class SourceSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Composition
+        fields = ('pk', 'type', 'title_s')
+
+    type = serializers.SerializerMethodField()
+    pk = serializers.ReadOnlyField()
+
+    title_s = serializers.ReadOnlyField(source="title")
+    anonymous_s = serializers.ReadOnlyField(source="anonymous")
+
+    def get_type(self, obj):
+        return self.Meta.model.__name__.lower()
