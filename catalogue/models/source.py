@@ -4,6 +4,7 @@ from django.db import models
 class Source(models.Model):
     class Meta:
         app_label = "catalogue"
+        ordering = ['shelfmark']
 
     shelfmark = models.CharField(max_length=255)
     name = models.CharField(max_length=255, blank=True, null=True)
@@ -16,3 +17,4 @@ class Source(models.Model):
 
     def __str__(self):
         return "{0}".format(self.shelfmark)
+
