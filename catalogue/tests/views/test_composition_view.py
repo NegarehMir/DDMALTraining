@@ -23,5 +23,16 @@ class CompositionViewTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    def test_fetches_json_detail_with_success(self):
+        url = reverse("composition-detail", kwargs={"pk": self.composition.pk})
+        response = self.client.get(url, HTTP_ACCEPT='application/json')
+        print(response["content-type"])
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_fetches_json_detail_with_failure(self):
+        url = reverse('composition-detail', kwargs={"pk": 123456789})
+        response = self.client.get(url, HTTP_ACCEPT='application/json')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     def tearDown(self):
         pass
