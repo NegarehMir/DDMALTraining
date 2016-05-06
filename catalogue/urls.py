@@ -20,6 +20,7 @@ from catalogue.views.archive import ArchiveListView, ArchiveDetailView
 from catalogue.views.composition import CompositionListView, CompositionDetailView
 from catalogue.views.composer import ComposerListView, ComposerDetailView
 from catalogue.views.composed import ComposedListView, ComposedDetailView
+from catalogue.views.search import SearchListView
 
 
 urlpatterns = [
@@ -37,6 +38,8 @@ urlpatterns = [
 
     url(r'^composeds/$', ComposedListView.as_view(), name="composed-list"),
     url(r'^composeds/(?P<pk>[0-9]+)/$', ComposedDetailView.as_view(), name="composed-detail"),
+
+    url(r'^search/?$', SearchListView.as_view(), name="search-list"),
 
     url(r'^admin/', admin.site.urls),
 ]
