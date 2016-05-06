@@ -12,7 +12,6 @@ class SearchListView(GenericAPIView):
     def get(self, request, *args, **kwargs):
         template_name = "search/search_list.html"
         params = []
-        search_results = []
         #print("request= {0}, pk = {1}".format(request.GET, request.GET['fsdkjhfsdlf']))
         # for key, value in request.GET:
         #     params.append((key, value))
@@ -40,20 +39,21 @@ class SearchListView(GenericAPIView):
         #     'fq': ['type:source', 'pk:{0}'.format(source_pk)]
         # }
         # q = self.server.search("*:*", **params)
-
         pk = request.GET.get('pk', default=None)
+        type = request.GET.get('type', default=None)
         params = {
-            'fq': ['pk:{0}'.format(pk)]
+            'fq': ['pk:{0}'.format(pk), 'type:{0}'.format(type)]
         }
-        solr = pysolr.Solr(settings.SOLR['SERVER'], timeout=20
-                           )
-        solr_search = solr.search('*:*', **params)#request.GET)
-        print('solr_search: {0}'.format(solr_search))
-        #pdb.set_trace()
-        for result in solr_search:
-            search_results.append(result)
-        response = Response(search_results, 200, template_name)
-        return response
+
+        # for key in request.GET:
+        #     params.get('fq').append('{0}:{1}'.format(key, request.GET.get(key)))
+
+        #params = self.request.GET
+
+        solr = pysolr.Solr(settings.SOLR['SERVER'])
+        solr_search = solr.search('type:{0}'.format(type), **params)
+
+        return Response(solr_search.docs, 200, template_name)
 
 
 
